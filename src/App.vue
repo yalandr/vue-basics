@@ -16,6 +16,19 @@
     <p v-else class="loading-message">
       Loading ...
     </p>
+    <div class="pagination flex center just-center">
+      <div 
+        v-for="page in totalPagesCount" 
+        :key="page" 
+        class="page-number flex center just-center" 
+        :class="{
+          'current' : pageNumber === page
+        }"
+        @click="switchPage(page)"
+        >
+        {{page}}
+      </div>
+    </div>
   </div>
 </div>
 </template>
@@ -40,7 +53,10 @@ export default {
         {value: 'title', name: 'By Title'},
         {value: 'body', name: 'By Body'},
       ],
-      searchQuery: ''
+      searchQuery: '',
+      pageNumber: 1,
+      postsPerPage: 10,
+      totalPagesCount: 0
     }
   },
   methods: {
@@ -58,13 +74,22 @@ export default {
       try {
         this.isPostsLoading = true;
         setTimeout(async () => {
-          const response = await axios.get('https://jsonplaceholder.typicode.com/posts?_limit=10');
+          const response = await axios.get('https://jsonplaceholder.typicode.com/posts', {
+            params: {
+              _page: this.pageNumber,
+              _limit: this.postsPerPage
+            }
+          });
+          this.totalPagesCount = Math.ceil(response.headers['x-total-count'] / this.postsPerPage);
           this.posts = response.data;
           this.isPostsLoading = false;
-        }, 1000)
+        }, 500)
       } catch (e) {
         console.log(e)
       }
+    },
+    switchPage(page) {
+      this.pageNumber = page;
     }
   },
   mounted() {
@@ -77,10 +102,13 @@ export default {
       })
     },
     sortedAndSearchedPosts() {
-      return this.sortedPosts.filter(post => post.title.includes(this.searchQuery))
+      return this.sortedPosts.filter(post => post.title.toLowerCase().includes(this.searchQuery.toLowerCase()))
     }
   },
   watch: {
+    pageNumber() {
+      this.fetchPosts();
+    },
     // SelectedSort(newValue) {
     //   this.posts.sort((post1, post2) => {
     //     return post1[newValue]?.localeCompare(post2[newValue])
@@ -91,5 +119,20 @@ export default {
 </script>
 
 <style>
-
+.page-number {
+  width: 2rem;
+  height: 2rem;
+  border-radius: 50%;
+  background-color: #555;
+  color: #ccc;
+  cursor: pointer;
+  margin: 0 .2rem;
+  transition: .1s
+}
+.page-number:hover {
+  background-color: #777;
+}
+.page-number.current {
+  background-color: rgb(78, 157, 247);
+}
 </style>

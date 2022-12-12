@@ -2,7 +2,7 @@
     <div class="post flex just-btwn">
         <div class="post-content">
             <h3 class="post-name">
-                {{post.title}}
+                {{post.id}}. {{post.title}}
             </h3>
             <p class="post-body">
                 {{post.body}}
