@@ -9,6 +9,7 @@
             </p>
         </div>
         <div class="action-btns">
+            <MyButton class="btn" @click="$router.push(`/posts/${post.id}`)">Details</MyButton>
             <MyButton class="btn-delete" @click="$emit('remove', post)">Del</MyButton>
         </div>
     </div>

@@ -12,14 +12,14 @@ name: 'MyButton'
 
 <style>
 .btn {
-  height: 40px;
+  height: auto;
   background-color: rgb(145, 223, 145);
   color: #333;
   border-radius: 4px;
-  min-width: 6rem;
-  padding: 0.5rem 1rem;
+  min-width: 5rem;
+  padding: 0.2rem .5rem;
   font-weight: 700;
-  font-size: 1.1rem;
+  font-size: 0.8rem;
   border: none;
   cursor: pointer;
 }

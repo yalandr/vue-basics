@@ -1,6 +1,8 @@
-import { createApp } from 'vue';
+import { createApp, withDirectives } from 'vue';
 import App from './App.vue';
 import uiComponents from '@/components/UI';
+import router from '@/router/router';
+import directives from '@/directives';
 
 import './assets/main.css';
 
@@ -10,4 +12,8 @@ uiComponents.forEach(uiComponent => {
     app.component(uiComponent.name, uiComponent);
 })
 
-app.mount('#app');
+directives.forEach((directive) => {
+    app.directive(directive.name, directive)
+})
+
+app.use(router).mount('#app');

@@ -3,7 +3,7 @@
         <h4 class="form-heading">
             Post creating
         </h4>
-        <MyInput type="text" placeholder="Name" v-model="post.title" />
+        <MyInput type="text" placeholder="Name" v-model="post.title" v-focus />
         <MyInput type="text" placeholder="Description" v-model="post.body" />
         <MyButton class="btn" @click="formBtnClick">
             Create
